@@ -1,8 +1,7 @@
-const {Skolengo} = require('scolengo-api')
-const {config} = require('../../vars.js');
+const { Skolengo } = require('scolengo-api');
+const { config } = require('../../vars.js');
 const fs = require('fs');
-const sendMessage = require('../../webhook');
-const { send } = require('process');
+const { sendMessageWithEmbed } = require('../../webhook');
 
 async function getHomeworkForNext30Days(config) {
   try {
@@ -20,21 +19,22 @@ async function getHomeworkForNext30Days(config) {
       console.error("Erreur lors de la lecture du fichier processed_ids.json :", error);
     }
 
-    let homeworkString = "";
+    const embed = {
+      title: "Travaux à faire pour les 30 prochains jours",
+      color: 0x0099ff,
+      fields: []
+    };
+
     for (const assignment of homework) {
       if (!processedIds.includes(assignment.id)) {
         const dueDate = new Date(assignment.dueDateTime);
         const formattedDueDate = `${dueDate.getHours()}h${dueDate.getMinutes()} ${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`;
-        homeworkString += `***${assignment.subject.label}***  --  ${formattedDueDate}\n`;
-        homeworkString += `***${assignment.title}\n***`;
-        homeworkString += `${assignment.html.replace(/<[^>]+>/g, '')}
-        \n`;
-
         
-
-        homeworkString += `${assignment.teacher.title} ${assignment.teacher.firstName} ${assignment.teacher.lastName}\n`;
-        homeworkString += `**ID **: ${assignment.id}\n`;
-        homeworkString += "\n";
+        const field = {
+          name: `${assignment.subject.label} - ${formattedDueDate}`,
+          value: `${assignment.title}\n${assignment.html.replace(/<[^>]+>/g, '')}`,
+        };
+        embed.fields.push(field);
 
         processedIds.push(assignment.id);
       }
@@ -46,8 +46,8 @@ async function getHomeworkForNext30Days(config) {
       console.error("Erreur lors de l'écriture du fichier processed_ids.json :", error);
     }
 
-    console.log("Voici les travaux à faire pour les 30 prochains jours :\n", homeworkString);
-    sendMessage(homeworkString);
+    console.log("Voici les travaux à faire pour les 30 prochains jours :\n", embed);
+    sendMessageWithEmbed(embed);
   } catch (error) {
     console.error("Une erreur s'est produite :", error);
   }
@@ -55,5 +55,4 @@ async function getHomeworkForNext30Days(config) {
 
 module.exports = {
   getHomeworkForNext30Days
-}
- 
+};

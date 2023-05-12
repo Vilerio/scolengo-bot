@@ -13,5 +13,23 @@ async function sendMessage(message) {
   }
 }
 
+async function sendMessageWithEmbed(content) {
+    try {
+      
+      const webhook = new Discord.WebhookClient({ url: webhookUrl });
+  
+      const embed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setDescription(content);
+  
+      await webhook.send({ embeds: [embed] });
+      console.log('Message envoyé avec succès.');
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de l'envoi du message :", error);
+    }
+  }
 // Exporter la fonction sendMessage
-module.exports = sendMessage;
+module.exports = {
+    sendMessage,
+    sendMessageWithEmbed
+};
