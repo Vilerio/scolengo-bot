@@ -1,8 +1,8 @@
 // Importer la bibliothèque axios pour effectuer des requêtes HTTP
 const axios = require('axios');
 
-// URL du webhook Discord
-const webhookUrl = 'https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN'; // Remplacez WEBHOOK_ID et WEBHOOK_TOKEN par vos propres valeurs
+// Importer l'URL du webhook Discord depuis le fichier vars.js
+const webhookUrl = require('./vars');
 
 // Fonction pour envoyer un message via le webhook Discord
 async function sendMessage(message) {
