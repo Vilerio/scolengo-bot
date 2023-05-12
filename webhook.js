@@ -2,7 +2,7 @@
 const axios = require('axios');
 
 // Importer l'URL du webhook Discord depuis le fichier vars.js
-const webhookUrl = require('./vars');
+const { webhookUrl } = require('./vars.js');
 
 // Fonction pour envoyer un message via le webhook Discord
 async function sendMessage(message) {
