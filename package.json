@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Vilerio/skolengo-bot#readme",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "scolengo-api": "^1.2.0"
   }
 }
