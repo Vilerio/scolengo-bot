@@ -1,4 +1,4 @@
-# kdecole-bot
+# skolengo-bot
 Un bot discord utilisant l'api kdecole écrit en javascript permettant d'être informé des nouveaux travaux à faire, des nouvelles notes, changements de cours, absences, etc... <br/>
 https://github.com/maelgangloff/scolengo-api
 
