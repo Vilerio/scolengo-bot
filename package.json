@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Vilerio/skolengo-bot/issues"
   },
-  "homepage": "https://github.com/Vilerio/skolengo-bot#readme"
+  "homepage": "https://github.com/Vilerio/skolengo-bot#readme",
+  "dependencies": {
+    "scolengo-api": "^1.2.0"
+  }
 }
