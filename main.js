@@ -19,11 +19,28 @@ function startProgram() {
 startProgram();
 
 Skolengo.fromConfigObject(config).then(async user => {
-  const startDate = new Date().toISOString().split('T')[0] // Aujourd'hui
-  const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1e3).toISOString().split('T')[0] // Aujourd'hui + 15 jours
+  const startDate = new Date().toISOString().split('T')[0] 
+  const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1e3).toISOString().split('T')[0] 
   const homework = await user.getHomeworkAssignments(user.tokenSet.claims().sub, startDate, endDate)
 
-  console.log("Voici les exercices à faire pour les 30 prochains jours : ", homework)
+
 
 })
-getHomeworkForNext30Days(config);
+
+Skolengo.fromConfigObject(config).then(async (user) => {
+  Skolengo.fromConfigObject(config).then(async user => {
+    const infoUser = await user.getUserInfo()
+  const studentId = infoUser.id;
+  const periodId = '1'; 
+
+  const limit = 20; 
+  const offset = 0;
+  const notes = await user.getEvaluation(studentId, periodId, limit, offset);
+  console.log('Voici les notes :', notes);
+}).catch((error) => {
+  console.error('Une erreur s\'est produite :', error);
+});
+})
+setInterval(() => {
+  getHomeworkForNext30Days(config);
+}, 10000); // Vérifier toutes les 10 secondes
