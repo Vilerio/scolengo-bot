@@ -1,0 +1,19 @@
+{
+  "name": "skolengo-bot",
+  "version": "0.1.1",
+  "description": "Un bot discord utilisant \"scolengo-api\" écrit en javascript permettant d'être informé des nouveaux travaux à faire, des nouvelles notes, changements de cours, absences, etc...",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vilerio/skolengo-bot.git"
+  },
+  "author": "Vilerio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vilerio/skolengo-bot/issues"
+  },
+  "homepage": "https://github.com/Vilerio/skolengo-bot#readme"
+}
