@@ -1,17 +1,26 @@
 const sendMessage = require('./webhook');
 const {Skolengo} = require('scolengo-api')
 const {config} = require('./vars.js');
+const { send } = require('process');
 
 function startProgram() {
   console.log('Programme démarré !');
   sendMessage('Programme démarré !');
+  Skolengo.fromConfigObject(config).then(async user => {
+    const infoUser = await user.getUserInfo()
+    console.log(`Correctement authentifié sous l'identifiant ${infoUser.id}`)
+    sendMessage(`Correctement authentifié sous l'identifiant ${infoUser.id}`)
+  })
 }
 
-// Appeler la fonction startProgram pour démarrer le programme
+
 startProgram();
 
-
 Skolengo.fromConfigObject(config).then(async user => {
-  const infoUser = await user.getUserInfo()
-  console.log(`Correctement authentifié sous l'identifiant ${infoUser.id}`)
+  const startDate = new Date().toISOString().split('T')[0] // Aujourd'hui
+  const endDate = new Date(Date.now() + 15 * 24 * 60 * 60 * 1e3).toISOString().split('T')[0] // Aujourd'hui + 15 jours
+  const homework = await user.getHomeworkAssignments(user.tokenSet.claims().sub, startDate, endDate)
+
+  console.log("Voici les exercices à faire pour les 2 prochaines semaines : ", homework)
+
 })
