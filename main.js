@@ -1,8 +1,9 @@
-const sendMessage = require('./webhook');
+const {sendMessage} = require('./webhook');
 const {Skolengo} = require('scolengo-api')
 const {config} = require('./vars.js');
 const { send } = require('process');
 const {getHomeworkForNext30Days} = require('./features/travail/travail.js')
+
 
 function startProgram() {
   console.log('Programme démarré !');

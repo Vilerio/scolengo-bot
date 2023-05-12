@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Vilerio/skolengo-bot#readme",
   "dependencies": {
+    "discord.js": "^14.11.0",
     "fs": "^0.0.1-security",
     "scolengo-api": "^1.2.0"
   }

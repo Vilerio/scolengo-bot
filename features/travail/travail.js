@@ -2,6 +2,7 @@ const { Skolengo } = require('scolengo-api');
 const { config } = require('../../vars.js');
 const fs = require('fs');
 const { sendMessageWithEmbed } = require('../../webhook');
+const { sendMessage } = require('../../webhook');
 
 async function getHomeworkForNext30Days(config) {
   try {
@@ -19,22 +20,20 @@ async function getHomeworkForNext30Days(config) {
       console.error("Erreur lors de la lecture du fichier processed_ids.json :", error);
     }
 
-    const embed = {
-      title: "Travaux à faire pour les 30 prochains jours",
-      color: 0x0099ff,
-      fields: []
-    };
+    const embeds = [];
 
     for (const assignment of homework) {
       if (!processedIds.includes(assignment.id)) {
         const dueDate = new Date(assignment.dueDateTime);
         const formattedDueDate = `${dueDate.getHours()}h${dueDate.getMinutes()} ${dueDate.getDate()}/${dueDate.getMonth() + 1}/${dueDate.getFullYear()}`;
         
-        const field = {
-          name: `${assignment.subject.label} - ${formattedDueDate}`,
-          value: `${assignment.title}\n${assignment.html.replace(/<[^>]+>/g, '')}`,
+        const embed = {
+          title: `${assignment.subject.label} - ${formattedDueDate}`,
+          color: 0x0099ff,
+          description: `${assignment.title}\n${assignment.html.replace(/<[^>]+>/g, '')}`,
         };
-        embed.fields.push(field);
+
+        embeds.push(embed);
 
         processedIds.push(assignment.id);
       }
@@ -46,8 +45,8 @@ async function getHomeworkForNext30Days(config) {
       console.error("Erreur lors de l'écriture du fichier processed_ids.json :", error);
     }
 
-    console.log("Voici les travaux à faire pour les 30 prochains jours :\n", embed);
-    sendMessageWithEmbed(embed);
+    console.log("Voici les travaux à faire pour les 30 prochains jours :\n", embeds);
+    sendMessageWithEmbed(embeds);
   } catch (error) {
     console.error("Une erreur s'est produite :", error);
   }

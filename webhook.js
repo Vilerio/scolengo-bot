@@ -1,5 +1,6 @@
 // Importer la bibliothèque axios pour effectuer des requêtes HTTP
 const axios = require('axios');
+const { Discord, Client, MessageEmbed } = require('discord.js');
 
 // Importer l'URL du webhook Discord depuis le fichier vars.js
 const { webhookUrl } = require('./vars.js');
@@ -13,22 +14,34 @@ async function sendMessage(message) {
   }
 }
 
-async function sendMessageWithEmbed(content) {
-    try {
-      
-      const webhook = new Discord.WebhookClient({ url: webhookUrl });
-  
-      const embed = new Discord.MessageEmbed()
-        .setColor('#0099ff')
-        .setDescription(content);
-  
-      await webhook.send({ embeds: [embed] });
-      console.log('Message envoyé avec succès.');
-    } catch (error) {
-      console.error("Une erreur s'est produite lors de l'envoi du message :", error);
-    }
-  }
-// Exporter la fonction sendMessage
+
+
+function sendMessageWithEmbed(embeds) {
+  // Stringify the embeds using JSON.stringify()
+  const data = JSON.stringify({ embeds });
+
+  // Create a config object for axios, you can also use axios.post("url", data) instead
+  const config = {
+    method: "POST",
+    url: webhookUrl, // Remplacez webhook par l'URL de votre webhook Discord
+    headers: { "Content-Type": "application/json" },
+    data: data,
+  };
+
+  // Send the request
+  axios(config)
+    .then((response) => {
+      console.log("Webhook delivered successfully");
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+}
+
+
+
 module.exports = {
     sendMessage,
     sendMessageWithEmbed
